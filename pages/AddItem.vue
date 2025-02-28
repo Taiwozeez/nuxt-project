@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import { DatePicker } from 'v-calendar';
+import 'v-calendar/dist/style.css';
 
-const date = ref('');
+const date = ref(new Date()); // Initialize with today's date
 const title = ref('');
 const details = ref('');
 
@@ -25,10 +27,19 @@ const saveEvent = () => {
     <main class="flex flex-col items-start flex-grow px-6 py-8">
       <div class="w-full max-w-lg ml-6">
         <form @submit.prevent="saveEvent" class="space-y-4">
-          <!-- Date Input (No Calendar Picker) -->
+          <!-- Date Input with Calendar Picker -->
           <div>
             <label for="date" class="block text-sm font-medium text-gray-700">Date in the Future</label>
-            <input v-model="date" type="text" id="date" name="date" class="w-3/4 px-3 py-2 border border-[#707070] rounded-md focus:ring-blue-500 focus:border-blue-500">
+            <DatePicker v-model="date" mode="date" :min-date="new Date()">
+              <template #default="{ inputValue, inputEvents }">
+                <input
+                  :value="inputValue"
+                  v-on="inputEvents"
+                  class="w-3/4 px-3 py-2 border border-[#707070] rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Select a date"
+                />
+              </template>
+            </DatePicker>
           </div>
 
           <!-- Title Input -->
